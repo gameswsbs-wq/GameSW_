@@ -35,13 +35,10 @@
             <section id="section-software" class="content-section fade-in">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Classroom Infrastructure</p>
                 <div class="space-y-4">
-                    
-                    <!-- A 강의실 -->
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
                                 <span class="font-bold text-white text-base whitespace-nowrap">A 강의실 (21석)</span>
-                                <!-- 관리자 전용 수동 상태 제어 버튼 -->
                                 <button onclick="editRoomStatus('A')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
                             </div>
                             <span id="badge-A" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
@@ -59,7 +56,6 @@
                                 <button onclick="editHardware('A')" class="admin-ui hidden text-[8px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">✏️ 수정</button>
                             </div>
                             <div class="space-y-1">
-                                <!-- MB가 포함된 6줄 스펙 -->
                                 <div class="hw-info"><span class="label">CPU</span><span id="hw-A-cpu">로딩중...</span></div>
                                 <div class="hw-info"><span class="label">RAM</span><span id="hw-A-ram">로딩중...</span></div>
                                 <div class="hw-info"><span class="label">GPU</span><span id="hw-A-gpu">로딩중...</span></div>
@@ -69,8 +65,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- B 강의실 -->
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
@@ -101,8 +95,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- C 강의실 -->
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
@@ -133,8 +125,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- D 강의실 -->
                     <div class="bg-blue-900/20 border-2 border-blue-500/30 rounded-2xl p-4 shadow-xl flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
@@ -165,8 +155,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- E 강의실 -->
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
@@ -197,14 +185,13 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
 
             <section id="section-report" class="content-section hidden fade-in">
                 <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
                     <h3 class="font-bold text-white text-sm mb-4">🛠️ 모바일 문의 접수</h3>
-                    <p class="text-[10px] text-slate-500 mb-4">입력된 데이터는 실시간으로 구글 시트에 기록됩니다.</p>
+                    <p class="text-[10px] text-slate-500 mb-4">입력된 데이터는 구글 시트에 기록되며 관리자에게 메일 발송됩니다.</p>
                     <div class="space-y-4">
                         <input type="text" id="input-name" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 text-sm text-white outline-none focus:border-blue-500" placeholder="본인 성함 입력">
                         <textarea id="input-content" rows="6" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white outline-none focus:border-blue-500 resize-none" placeholder="문의 및 고장 내용을 상세히 적어주세요."></textarea>
@@ -238,6 +225,15 @@
                         <span class="text-white text-[10px] font-bold">● 중앙 관제 센터 (관리자)</span>
                     </div>
                     <div class="p-4 bg-slate-900">
+                        <div class="mb-5 bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-inner">
+                            <p class="text-[10px] text-blue-400 mb-2 font-bold">📧 이메일 설정</p>
+                            <div class="flex gap-2">
+                                <input type="email" id="admin-email-input" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white outline-none focus:border-blue-500" placeholder="수신 이메일 주소">
+                                <button onclick="saveAdminEmail()" id="btn-save-email" class="bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold px-4 py-2.5 rounded-lg active:scale-95 transition-transform">저장</button>
+                            </div>
+                            <p class="text-[9px] text-slate-400 mt-2 truncate" id="current-email-display">로딩 중...</p>
+                        </div>
+
                         <p class="text-[10px] text-blue-400 mb-4 pb-2 border-b border-slate-800 font-bold">수신된 시설 고장/문의 내역</p>
                         <div id="report-list-container" class="space-y-3 max-h-[450px] overflow-y-auto">
                             <p class="text-center text-slate-600 py-10 text-xs italic">최근 접수 내역이 없습니다.</p>
@@ -260,10 +256,8 @@
         // =========================================================================
         // [중요] 반드시 새로 발급받은 구글 웹앱 URL을 겹따옴표 안에 붙여넣으세요!
         // =========================================================================
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxliFMetV2F9VVCkL29ULBJ5K5hj0op_flAl2TTiXSMDTzEpGINgZxz_t6EEF1xnXEuyQ/exec"; 
-        const ADMIN_PW = "admin1234";
+        const GOOGLE_SCRIPT_URL = "여기에_주소를_붙여넣으세요"; 
 
-        // [데이터 독립 보장] 분당과 수원이 섞이지 않도록 모바일도 'g_suwon_reports'라는 새 창고 이름을 씁니다.
         let localReports = JSON.parse(localStorage.getItem('g_suwon_reports')) || [];
         let isAdminMode = false;
         let softwareData = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [] };
@@ -279,7 +273,6 @@
         const tabTriggers = document.querySelectorAll('.tab-trigger');
         const contentSections = document.querySelectorAll('.content-section');
 
-        // 모바일 하단 네비게이션 탭 클릭 시 화면이 넘어가는 로직입니다.
         tabTriggers.forEach(tab => {
             tab.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -296,7 +289,6 @@
             const y = now.getFullYear();
             const m = now.getMonth() + 1;
             const d = now.getDate();
-
             const todayPrefix = `${y}. ${m}. ${d}.`;
             const monthPrefix = `${y}. ${m}. `;
 
@@ -317,12 +309,19 @@
         }
         updateStats();
 
-        // [에러 방어 로직] 인터넷이 끊기거나 구글 서버가 안 될 때 프로그램이 터지지 않게 보호합니다.
         async function safeFetchJSON(url, options) {
             const res = await fetch(url, options);
             const text = await res.text();
             try { return JSON.parse(text); } 
             catch (e) { throw new Error("서버 에러 또는 구글 권한 문제 발생"); }
+        }
+
+        // [보안 패치 2] XSS 방어 로직 추가
+        function escapeHTML(str) {
+            if (!str) return "";
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
 
         async function loadServerData() {
@@ -332,7 +331,7 @@
                 const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load", { method: 'GET' });
                 if (responseData.result === "success") {
                     localReports = responseData.data;
-                    localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); // 데이터 동기화
+                    localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                     updateStats();
                     if (isAdminMode) { renderAdminReports(); }
                     syncDot.classList.replace('bg-blue-500', 'bg-emerald-500');
@@ -355,7 +354,6 @@
                             const status = statusData[room] || "자습가능";
                             badge.innerText = status;
                             
-                            // 모바일에 어울리는 어두운 톤의 배지 색상 로직입니다.
                             if (status.includes('자습가능') || status.includes('운영중')) {
                                 badge.className = "text-sm font-bold px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
                             } else if (status.includes('수업중')) {
@@ -366,7 +364,7 @@
                         }
                     });
                 }
-            } catch (e) { console.error("상태 연동 실패", e); }
+            } catch (e) {}
         }
 
         async function loadSoftwareData() {
@@ -377,13 +375,7 @@
                     ['A', 'B', 'C', 'D', 'E'].forEach(room => { if(data[room]) { softwareData[room] = data[room]; } });
                     renderAllSoftware();
                 }
-            } catch(e) { 
-                console.error("소프트웨어 연동 실패"); 
-                ['A', 'B', 'C', 'D', 'E'].forEach(room => {
-                    const el = document.getElementById(`sw-container-${room}`);
-                    if (el) el.innerHTML = '<p class="text-[10px] text-red-400">데이터 로드 실패 (URL 확인 요망)</p>';
-                });
-            }
+            } catch(e) {}
         }
 
         async function loadHardwareData() {
@@ -397,8 +389,43 @@
                     });
                     renderAllHardwareSpecs(); 
                 }
-            } catch(e) { console.error("하드웨어 사양 연동 실패"); }
+            } catch(e) {}
         }
+
+        // [이메일 모듈] 현재 설정된 이메일 주소 읽기
+        async function loadAdminEmail() {
+            try {
+                const res = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_email", { method: 'GET' });
+                if (res.result === 'success') {
+                    const currentEmail = res.email || '설정된 메일 없음';
+                    document.getElementById('current-email-display').innerText = '현재 수신: ' + currentEmail;
+                    if(res.email) document.getElementById('admin-email-input').value = res.email;
+                }
+            } catch(e) { document.getElementById('current-email-display').innerText = '이메일 로딩 실패'; }
+        }
+
+        // [이메일 모듈] 새로운 이메일 주소 서버에 저장하기
+        window.saveAdminEmail = async function() {
+            const emailInput = document.getElementById('admin-email-input').value.trim();
+            const saveBtn = document.getElementById('btn-save-email');
+            
+            if (!emailInput) return alert("저장할 이메일 주소를 입력하세요.");
+            if (!emailInput.includes('@')) return alert("올바른 이메일 형식이 아닙니다.");
+            
+            saveBtn.disabled = true; saveBtn.innerText = "저장 중";
+            
+            try {
+                const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ action: 'save_email', email: emailInput })
+                });
+                if (result.result === 'success') {
+                    alert("이메일 설정 저장 완료");
+                    loadAdminEmail(); 
+                } else { alert("저장에 실패했습니다."); }
+            } catch(e) { alert("통신 에러"); } 
+            finally { saveBtn.disabled = false; saveBtn.innerText = "저장"; }
+        };
 
         function renderAllSoftware() {
             ['A', 'B', 'C', 'D', 'E'].forEach(room => {
@@ -432,38 +459,28 @@
             });
         }
 
-        // 앱이 처음 켜질 때 실행되는 묶음입니다.
         window.addEventListener('load', () => {
             loadServerData();
             loadRoomStatus();
             loadSoftwareData();
             loadHardwareData(); 
-            
-            // 모바일 화면이 켜져 있는 동안 최신 상태를 유지하기 위해 60초마다 서버를 찔러봅니다(Polling).
             setInterval(loadRoomStatus, 60000);
         });
 
-        // ------------------------------------------------------------------------
-        // [모바일 엔진] 2단계 프롬프트(상태 입력 -> 유지 시간 입력) 수동 제어 타이머 로직
-        // ------------------------------------------------------------------------
         window.editRoomStatus = async function(room) {
             if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
-            
             const badge = document.getElementById(`badge-${room}`);
             const currentBadge = badge.innerText;
             const defaultText = (currentBadge.includes('자습가능') || currentBadge.includes('수업중') || currentBadge.includes('스캔 중...')) ? '' : currentBadge;
-            
-            const newStatus = prompt(`[${room} 강의실] 강제로 고정할 상태를 입력하세요.\n(예: 사용중, 특강중, 회의중 등)\n\n※ 빈칸으로 지우고 확인을 누르면 즉시 '자동 스캔 모드'로 복귀합니다.`, defaultText);
+            const newStatus = prompt(`[${room} 강의실] 고정 상태 입력:`, defaultText);
             if (newStatus === null) return; 
 
-            // 빈칸으로 취소한게 아니라 진짜로 글자를 입력했다면, 시간을 묻는 창을 한 번 더 띄웁니다.
             let duration = '';
             if (newStatus.trim() !== '') {
-                duration = prompt(`[${room} 강의실] 유지할 시간을 '분' 단위로 입력하세요.\n(예: 60)\n\n※ 빈칸으로 두면 직접 해제할 때까지 무기한 유지됩니다.`);
+                duration = prompt(`[${room} 강의실] 유지 시간 (분):\n(빈칸: 무기한)`);
                 if (duration === null) return; 
             }
             
-            // 데이터가 서버에 다녀오기 전에 화면부터 먼저 바꿔서, 답답함을 없앱니다 (Optimistic UI)
             if (newStatus.trim() === '') {
                 badge.innerText = "스캔 중...";
                 badge.className = "text-sm font-bold px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right bg-slate-700 text-slate-400";
@@ -473,51 +490,38 @@
             }
             
             try {
-                // 방, 상태글자, 유지시간을 하나로 예쁘게 묶어서 백엔드로 발송합니다.
                 await safeFetchJSON(GOOGLE_SCRIPT_URL, {
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'update_room_status', room: room, status: newStatus.trim(), duration: duration.trim() })
                 });
                 
-                if (newStatus.trim() === '') { 
-                    loadRoomStatus(); 
-                } else { 
-                    const timeMsg = duration.trim() ? `${duration}분 뒤 자동 해제됩니다.` : "직접 해제할 때까지 무기한 유지됩니다.";
-                    alert(`[${room} 강의실] 상태가 강제 고정되었습니다.\n(${timeMsg})`); 
-                }
-                
-            } catch(e) { alert("서버 저장 실패: 인터넷 연결을 확인하세요."); }
+                if (newStatus.trim() === '') { loadRoomStatus(); } 
+                else { alert(`[${room}] 고정 완료`); }
+            } catch(e) { alert("저장 실패"); }
         };
 
         window.editHardware = async function(room) {
-            if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
-            
+            if (!isAdminMode) return alert("관리자 필요");
             const hw = hardwareData[room];
-            
-            const newCpu = prompt(`[${room} 강의실] 변경할 CPU 사양을 입력하세요:`, hw.cpu); if(newCpu === null) return;
-            const newRam = prompt(`[${room} 강의실] 변경할 RAM 사양을 입력하세요:`, hw.ram); if(newRam === null) return;
-            const newGpu = prompt(`[${room} 강의실] 변경할 GPU 사양을 입력하세요:`, hw.gpu); if(newGpu === null) return;
-            const newDisk = prompt(`[${room} 강의실] 변경할 DISK 용량을 입력하세요:`, hw.disk); if(newDisk === null) return;
-            const newMb = prompt(`[${room} 강의실] 변경할 메인보드(MB) 사양을 입력하세요:`, hw.mb); if(newMb === null) return;
-            const newPower = prompt(`[${room} 강의실] 변경할 파워(POWER) 용량을 입력하세요:`, hw.power); if(newPower === null) return;
-            
+            const newCpu = prompt(`[${room}] CPU:`, hw.cpu); if(newCpu === null) return;
+            const newRam = prompt(`[${room}] RAM:`, hw.ram); if(newRam === null) return;
+            const newGpu = prompt(`[${room}] GPU:`, hw.gpu); if(newGpu === null) return;
+            const newDisk = prompt(`[${room}] DISK:`, hw.disk); if(newDisk === null) return;
+            const newMb = prompt(`[${room}] MB:`, hw.mb); if(newMb === null) return;
+            const newPower = prompt(`[${room}] POWER:`, hw.power); if(newPower === null) return;
             hardwareData[room] = { cpu: newCpu, ram: newRam, gpu: newGpu, disk: newDisk, mb: newMb, power: newPower };
             renderAllHardwareSpecs();
-            
             try {
                 await safeFetchJSON(GOOGLE_SCRIPT_URL, {
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: new URLSearchParams({ 
-                        action: 'update_hw', room: room, 
-                        cpu: newCpu, ram: newRam, gpu: newGpu, disk: newDisk, mb: newMb, power: newPower 
-                    })
+                    body: new URLSearchParams({ action: 'update_hw', room: room, cpu: newCpu, ram: newRam, gpu: newGpu, disk: newDisk, mb: newMb, power: newPower })
                 });
-            } catch(e) { alert("서버 저장 실패: 인터넷 연결을 확인하세요."); }
+            } catch(e) { alert("실패"); }
         };
 
         window.addSoftware = async function(room) {
             if (!isAdminMode) return;
-            const newSw = prompt(`${room} 강의실에 추가할 SW (예: Unity 6000)`);
+            const newSw = prompt(`${room}실 SW 추가:`);
             if (!newSw || newSw.trim() === '') return;
             softwareData[room].push(newSw.trim());
             renderAllSoftware();
@@ -527,12 +531,12 @@
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'update_software', room: room, swList: swListStr })
                 });
-            } catch(e) { alert("저장 실패"); }
+            } catch(e) { alert("실패"); }
         };
 
         window.deleteSoftware = async function(room, targetSw) {
             if (!isAdminMode) return;
-            if (!confirm(`'${targetSw}' 항목 삭제?`)) return;
+            if (!confirm(`'${targetSw}' 삭제?`)) return;
             softwareData[room] = softwareData[room].filter(sw => sw !== targetSw);
             renderAllSoftware(); 
             const swListStr = softwareData[room].join(',');
@@ -541,39 +545,36 @@
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'update_software', room: room, swList: swListStr })
                 });
-            } catch(e) { alert("삭제 실패"); }
+            } catch(e) { alert("실패"); }
         };
 
-        // 모바일 사용자가 문의를 넣었을 때 작동하는 함수입니다.
         document.getElementById('btn-submit').addEventListener('click', async () => {
             const name = document.getElementById('input-name').value.trim();
             const content = document.getElementById('input-content').value.trim();
             if(!name || !content) return alert("성함과 내용을 입력하세요.");
             
             const originalBtnText = btnSubmit.innerHTML;
-            btnSubmit.disabled = true; btnSubmit.innerText = "전송 중..."; // 버튼 잠금
+            btnSubmit.disabled = true; btnSubmit.innerText = "전송 중..."; 
             const newId = Date.now();
-            const newDate = new Date().toLocaleString('ko-KR');
 
             try {
-                // 입력받은 글자를 백엔드로 전달합니다.
+                // [보안 패치 3] 절대 시간 서버에서 받아오기
                 const data = await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
                     method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, 
-                    body:new URLSearchParams({action:'submit', id: newId, name: name, content: content, date: newDate}) 
+                    body:new URLSearchParams({action:'submit', id: newId, name: name, content: content}) 
                 });
+                
                 if(data.result === "success") {
-                    alert("접수 완료");
-                    // 모바일 저장소(g_suwon_reports)에도 남겨서 통계를 갱신합니다.
-                    localReports.push({ id: newId, name, content, date: newDate, status:'pending' });
+                    alert("접수 완료! (메일 알림 발송됨)");
+                    localReports.push({ id: newId, name: name, content: content, date: data.date, status:'pending' });
                     localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                     document.getElementById('input-name').value=""; document.getElementById('input-content').value=""; updateStats();
                 }
             } catch(e) { alert("통신 오류 발생."); } 
-            finally { btnSubmit.disabled = false; btnSubmit.innerHTML = originalBtnText; } // 버튼 풀기
+            finally { btnSubmit.disabled = false; btnSubmit.innerHTML = originalBtnText; } 
         });
 
-        // 모바일 우측 상단의 '관리자 로그인' 로직입니다.
-        document.getElementById('admin-login-btn').addEventListener('click', () => {
+        document.getElementById('admin-login-btn').addEventListener('click', async () => {
             const btn = document.getElementById('admin-login-btn');
             
             if (isAdminMode) {
@@ -583,31 +584,48 @@
                     btn.classList.remove('bg-blue-600/20', 'text-blue-400', 'border-blue-500/30');
                     btn.classList.add('bg-slate-800', 'text-slate-400', 'border-slate-700');
                     
-                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden')); // 관리자 메뉴 감추기
-                    if (!document.getElementById('section-admin').classList.contains('hidden')) {
-                        tabTriggers[0].click();
-                    }
+                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden')); 
+                    if (!document.getElementById('section-admin').classList.contains('hidden')) { tabTriggers[0].click(); }
                     renderAllSoftware(); 
                     alert("일반 모드로 전환되었습니다.");
                 }
                 return;
             }
 
-            if(prompt("보안 비밀번호를 입력하세요.") === ADMIN_PW) {
-                isAdminMode = true;
-                btn.innerText = "🔓 관리자 (로그아웃)";
-                btn.classList.remove('bg-slate-800', 'text-slate-400', 'border-slate-700');
-                btn.classList.add('bg-blue-600/20', 'text-blue-400', 'border-blue-500/30');
-                
-                document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden')); // 관리자 메뉴 보이기
-                
-                alert("✅ 관리자 권한 획득!\n인프라 탭에서 강의실 상태와 HW/SW를 수정할 수 있습니다.");
-                tabTriggers[0].click(); 
-                
-                renderAdminReports();
-                renderAllSoftware(); 
-                loadServerData(); 
-            } else { alert("비밀번호 불일치"); }
+            const userInputPw = prompt("보안 비밀번호 입력:");
+            if (!userInputPw) return;
+
+            btn.innerText = "로딩 중...";
+            
+            try {
+                const response = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ action: 'verify_admin', pw: userInputPw })
+                });
+
+                if (response.result === 'success') {
+                    isAdminMode = true;
+                    btn.innerText = "🔓 관리자 (로그아웃)";
+                    btn.classList.remove('bg-slate-800', 'text-slate-400', 'border-slate-700');
+                    btn.classList.add('bg-blue-600/20', 'text-blue-400', 'border-blue-500/30');
+                    
+                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden')); 
+                    
+                    alert("✅ 관리자 권한 획득!");
+                    tabTriggers[0].click(); 
+                    
+                    renderAdminReports();
+                    renderAllSoftware(); 
+                    loadServerData(); 
+                    loadAdminEmail(); // 모바일에서도 이메일 설정 정보 불러오기
+                } else {
+                    alert("비밀번호 불일치");
+                    btn.innerText = "⚙️ 관리자 로그인";
+                }
+            } catch(e) { 
+                alert("서버 연결 실패"); 
+                btn.innerText = "⚙️ 관리자 로그인";
+            }
         });
 
         function renderAdminReports() {
@@ -618,14 +636,18 @@
                 if (!r.status) r.status = 'pending';
                 let statusBadge = r.status === 'complete' ? '<span class="text-emerald-400">[완료]</span>' : (r.status === 'check' ? '<span class="text-blue-400">[확인]</span>' : '<span class="text-slate-400">[접수]</span>');
                 
+                // [보안 패치 2 적용]
+                const safeName = escapeHTML(r.name);
+                const safeContent = escapeHTML(r.content);
+
                 return `
                 <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 mb-3 shadow-inner">
                     <div class="flex items-center gap-2 mb-2">
                         <p class="text-blue-400 text-[9px] font-bold">ID:${r.id}</p>
                         <p class="text-[10px] font-bold">${statusBadge}</p>
                     </div>
-                    <p class="text-white text-xs font-bold mb-1">${r.name}</p>
-                    <p class="text-slate-400 text-[11px] leading-relaxed mb-3">${r.content}</p>
+                    <p class="text-white text-xs font-bold mb-1">${safeName}</p>
+                    <p class="text-slate-400 text-[11px] leading-relaxed mb-3">${safeContent}</p>
                     
                     <div class="flex gap-1 mt-3 border-t border-slate-700/50 pt-2">
                         <button onclick="updateSheetStatus('${r.id}', 'check')" class="flex-1 bg-slate-900/80 text-blue-400 text-[10px] py-2 rounded font-bold border border-slate-700 active:bg-slate-700">확인 기록</button>
