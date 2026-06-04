@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게임분당 통합 관제 시스템 (PC)</title>
+    <title>게임수원 통합 관제 시스템 (PC)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
@@ -31,7 +31,7 @@
     <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col h-full flex-shrink-0 shadow-2xl z-20">
         <div class="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950 flex-shrink-0">
             <div class="w-2.5 h-2.5 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
-            <h1 class="font-bold text-white tracking-wide text-sm">G-BUNDANG <span class="text-blue-400">FACILITY</span></h1>
+            <h1 class="font-bold text-white tracking-wide text-sm">G-SUWON <span class="text-blue-400">FACILITY</span></h1>
         </div>
         
         <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1" id="sidebar-nav">
@@ -118,6 +118,7 @@
                             </div>
                         </div>
 
+                        <!-- B, C, D, E 강의실 코드는 생략하지 않고 모두 포함합니다 -->
                         <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
                             <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -285,13 +286,16 @@
         // =========================================================================
         // [중요] 반드시 새로 발급받은 구글 웹앱 URL을 겹따옴표 안에 붙여넣으세요!
         // =========================================================================
-        const GOOGLE_SCRIPT_URL = "여기에_주소를_붙여넣으세요"; 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxliFMetV2F9VVCkL29ULBJ5K5hj0op_flAl2TTiXSMDTzEpGINgZxz_t6EEF1xnXEuyQ/exec"; 
         const ADMIN_PW = "admin1234";
 
-        let localReports = JSON.parse(localStorage.getItem('g_bundang_reports')) || [];
+        // [데이터 독립 보장] 게임분당(g_bundang_reports) 캐시와 충돌하지 않도록 'g_suwon_reports'라는 새로운 저장소를 사용합니다.
+        // 브라우저의 로컬 스토리지에서 이전 문의 기록을 불러옵니다. 이 데이터가 화면 우측 대시보드 통계의 재료가 됩니다.
+        let localReports = JSON.parse(localStorage.getItem('g_suwon_reports')) || [];
         let isAdminMode = false;
         let softwareData = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [] };
         
+        // 하드웨어 기본 사양 (서버에서 불러오기 전 화면에 보여줄 임시 데이터입니다)
         let hardwareData = {
             'A': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
             'B': { cpu: 'i7-11700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B560M 보드', power: 'MSI 750W' },
@@ -303,6 +307,7 @@
         const tabTriggers = document.querySelectorAll('.tab-trigger');
         const contentSections = document.querySelectorAll('.content-section');
 
+        // 사이드바의 탭을 클릭했을 때 화면 전환을 처리하는 로직입니다.
         tabTriggers.forEach(tab => {
             tab.addEventListener('click', function(e) {
                 e.preventDefault(); 
@@ -313,6 +318,7 @@
             });
         });
 
+        // 문의 내역 건수를 계산하여 화면 좌측 하단(Dashboard Status)에 통계로 뿌려주는 함수입니다.
         function updateStats() {
             const now = new Date();
             const y = now.getFullYear();
@@ -339,6 +345,7 @@
         }
         updateStats();
 
+        // 서버와 통신할 때 에러가 나면 프로그램이 멈추지 않도록 안전망(Try-Catch)을 씌워주는 도우미 함수입니다.
         async function safeFetchJSON(url, options) {
             const res = await fetch(url, options);
             const text = await res.text();
@@ -346,18 +353,20 @@
             catch (e) { throw new Error("서버 에러 또는 구글 권한 문제 발생"); }
         }
 
+        // 구글 시트에 저장된 모든 문의 내역을 가져와 브라우저 저장소(g_suwon_reports)에 동기화합니다.
         async function loadServerData() {
             try {
                 const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load", { method: 'GET' });
                 if (responseData.result === "success") {
                     localReports = responseData.data;
-                    localStorage.setItem('g_bundang_reports', JSON.stringify(localReports));
+                    localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); // 데이터 이름 변경
                     updateStats();
                     if (isAdminMode) { renderAdminReports(); }
                 }
             } catch(e) { console.error("문의 데이터 로딩 실패", e); }
         }
         
+        // 현재 각 강의실이 '수업중'인지 '자습가능'인지 구글 시트에서 읽어옵니다.
         async function loadRoomStatus() {
             const syncStatus = document.getElementById('sync-status');
             syncStatus.innerText = "클라우드 스캔 중...";
@@ -374,6 +383,7 @@
                             badge.innerText = status;
                             badge.title = status; 
                             
+                            // 상태에 따라 배지 색상을 자동으로 변경해주는 로직입니다.
                             if (status.includes('자습가능') || status.includes('운영중')) {
                                 badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm";
                             } else if (status.includes('수업중')) {
@@ -393,6 +403,7 @@
             }
         }
 
+        // 소프트웨어 목록을 서버에서 불러와 화면에 뿌려줍니다.
         async function loadSoftwareData() {
             try {
                 const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_software", { method: 'GET' });
@@ -404,8 +415,9 @@
             } catch(e) { console.error("소프트웨어 연동 실패"); }
         }
 
+        // 하드웨어 목록을 서버에서 불러와 화면에 뿌려줍니다.
         async function loadHardwareData() {
-            renderAllHardwareSpecs(); 
+            renderAllHardwareSpecs(); // 로딩 전 임시 데이터를 먼저 보여줍니다.
             try {
                 const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_hw", { method: 'GET' });
                 if (responseData.result === "success") {
@@ -413,7 +425,7 @@
                     ['A', 'B', 'C', 'D', 'E'].forEach(room => { 
                         if(data[room] && data[room].cpu !== '') { hardwareData[room] = data[room]; } 
                     });
-                    renderAllHardwareSpecs(); 
+                    renderAllHardwareSpecs(); // 실제 데이터를 받아오면 화면을 갱신합니다.
                 }
             } catch(e) { console.error("하드웨어 사양 연동 실패"); }
         }
@@ -451,15 +463,18 @@
             });
         }
 
+        // 페이지가 처음 켜졌을 때 모든 데이터를 한 번씩 다 불러옵니다.
         window.addEventListener('load', () => {
             loadServerData();
             loadRoomStatus();
             loadSoftwareData();
             loadHardwareData();
             
+            // 60초마다 강의실 상태를 주기적으로 체크합니다. (자동화의 핵심)
             setInterval(loadRoomStatus, 60000);
         });
 
+        // 관리자가 강의실 상태를 수동으로 바꿀 때 쓰는 함수입니다.
         window.editRoomStatus = async function(room) {
             if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
             
@@ -476,6 +491,7 @@
                 if (duration === null) return; 
             }
             
+            // 사용자가 화면에서 바로 바뀐 걸 느낄 수 있도록 미리 화면 글자를 바꿔줍니다.
             if (newStatus.trim() === '') {
                 badge.innerText = "스캔 중...";
                 badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-slate-100 text-slate-500";
@@ -485,6 +501,7 @@
             }
             
             try {
+                // 백엔드(Code.js)로 변경된 상태와 시간 정보를 던져서 저장하라고 명령합니다.
                 await safeFetchJSON(GOOGLE_SCRIPT_URL, {
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'update_room_status', room: room, status: newStatus.trim(), duration: duration.trim() })
@@ -559,18 +576,20 @@
             } catch(e) { alert("구글 서버에 삭제 동기화 중 오류가 발생했습니다."); }
         };
 
+        // 일반 사용자가 '문의 접수' 버튼을 눌렀을 때 실행되는 함수입니다.
         document.getElementById('btn-submit').addEventListener('click', async () => {
             const name = document.getElementById('input-name').value.trim();
             const content = document.getElementById('input-content').value.trim();
             const submitBtn = document.getElementById('btn-submit');
             
             if(!name || !content) return alert("이름과 내용을 모두 입력해주세요.");
-            submitBtn.disabled = true; submitBtn.innerText = "서버 전송 중...";
+            submitBtn.disabled = true; submitBtn.innerText = "서버 전송 중..."; // 중복 클릭을 막기 위해 버튼을 잠급니다.
 
             const newId = Date.now();
             const newDate = new Date().toLocaleString('ko-KR');
 
             try {
+                // 백엔드에 이름과 고장 내용을 전달합니다.
                 const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
                     method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, 
                     body:new URLSearchParams({ action:'submit', id: newId, name: name, content: content, date: newDate }) 
@@ -578,14 +597,16 @@
                 
                 if(result.result === "success") {
                     alert("성공적으로 문의가 접수되었습니다.");
+                    // 브라우저 저장소에도 기록을 남겨 화면 통계가 즉시 올라가게 만듭니다.
                     localReports.push({ id: newId, name, content, date: newDate, status: 'pending' });
-                    localStorage.setItem('g_bundang_reports', JSON.stringify(localReports));
+                    localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); // 데이터 이름 변경 반영
                     document.getElementById('input-name').value = ""; document.getElementById('input-content').value = ""; updateStats();
                 }
             } catch(e) { alert("서버 연동 오류가 발생했습니다."); 
-            } finally { submitBtn.disabled = false; submitBtn.innerText = "문의 접수"; }
+            } finally { submitBtn.disabled = false; submitBtn.innerText = "문의 접수"; } // 완료되면 버튼을 다시 풀어줍니다.
         });
 
+        // 우측 상단 '관리자 로그인' 로직
         document.getElementById('admin-login-btn').addEventListener('click', () => { 
             const btn = document.getElementById('admin-login-btn');
             
@@ -596,7 +617,7 @@
                     btn.classList.remove('bg-blue-100', 'text-blue-700', 'border-blue-300');
                     btn.classList.add('bg-slate-100', 'text-slate-600', 'border-slate-200');
                     
-                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden')); // 숨겨져 있던 관리자 버튼들을 다시 감춥니다.
                     if (!document.getElementById('section-admin').classList.contains('hidden')) {
                         tabTriggers[0].click();
                     }
@@ -612,7 +633,7 @@
                 btn.classList.remove('bg-slate-100', 'text-slate-600', 'border-slate-200');
                 btn.classList.add('bg-blue-100', 'text-blue-700', 'border-blue-300');
                 
-                document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden')); // 숨겨진 관리자 전용 버튼과 탭이 나타납니다.
                 
                 alert("✅ 관리자 모드가 활성화되었습니다.\n\n- [강의실 현황] 화면에서 강의실 상태 제어와 하드웨어/소프트웨어를 조작할 수 있습니다.\n- 사이드바에 생성된 [문의 접수 처리판] 탭에서 오류 내역을 관리할 수 있습니다.");
                 
@@ -646,14 +667,14 @@
                         <button onclick="deleteGlobalReport('${report.id}')" class="flex-1 text-[11px] text-slate-400 bg-slate-900/80 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors">서버 영구 삭제</button>
                     </div>
                 </div>`
-            }).reverse().join(''); 
+            }).reverse().join(''); // 최신 글이 제일 위로 올라오게 배열을 뒤집습니다(reverse)
         }
 
         window.updateSheetStatus = async function(id, updateType) {
             const reportIndex = localReports.findIndex(r => String(r.id) === String(id));
             if (reportIndex > -1) { 
                 localReports[reportIndex].status = updateType; 
-                localStorage.setItem('g_bundang_reports', JSON.stringify(localReports)); 
+                localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                 renderAdminReports(); updateStats(); 
             }
             try { 
@@ -667,7 +688,7 @@
         window.deleteGlobalReport = async function(id) { 
             if (confirm("서버에서 이 내역을 완전히 영구 삭제하시겠습니까?\\n(삭제 후 복구할 수 없습니다)")) { 
                 localReports = localReports.filter(r => String(r.id) !== String(id)); 
-                localStorage.setItem('g_bundang_reports', JSON.stringify(localReports)); 
+                localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                 renderAdminReports(); updateStats(); 
                 try {
                     await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
