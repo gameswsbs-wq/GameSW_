@@ -31,25 +31,24 @@
 
     <main class="flex-1 overflow-y-auto p-4 pb-20 scroll-smooth" id="main-content">
         <div class="space-y-6">
-
             <section id="section-software" class="content-section fade-in">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Classroom Infrastructure</p>
                 <div class="space-y-4">
-                    <!-- A 강의실 -->
+                    
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
-                                <span class="font-bold text-white text-base whitespace-nowrap">A 강의실 (21석)</span>
-                                <button onclick="editRoomStatus('A')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
+                                <span class="font-bold text-white text-base whitespace-nowrap">A 강의실</span>
+                                <button onclick="editRoomStatus('A')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
                             </div>
                             <span id="badge-A" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
                         </div>
                         <div class="mb-3">
                             <div class="flex items-center gap-2 mb-2">
                                 <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
-                                <button onclick="addSoftware('A')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ SW 추가</button>
+                                <button onclick="addSoftware('A')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
                             </div>
-                            <div id="sw-container-A" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">서버 통신중...</p></div>
+                            <div id="sw-container-A" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
                         </div>
                         <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
                             <div class="flex justify-between items-center mb-2">
@@ -66,21 +65,21 @@
                             </div>
                         </div>
                     </div>
-                    <!-- B 강의실 -->
+
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
-                                <span class="font-bold text-white text-base whitespace-nowrap">B 강의실 (20석)</span>
-                                <button onclick="editRoomStatus('B')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
+                                <span class="font-bold text-white text-base whitespace-nowrap">B 강의실</span>
+                                <button onclick="editRoomStatus('B')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
                             </div>
                             <span id="badge-B" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
                         </div>
                         <div class="mb-3">
                             <div class="flex items-center gap-2 mb-2">
                                 <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
-                                <button onclick="addSoftware('B')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ SW 추가</button>
+                                <button onclick="addSoftware('B')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
                             </div>
-                            <div id="sw-container-B" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">서버 통신중...</p></div>
+                            <div id="sw-container-B" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
                         </div>
                         <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
                             <div class="flex justify-between items-center mb-2">
@@ -97,21 +96,21 @@
                             </div>
                         </div>
                     </div>
-                    <!-- C 강의실 -->
+
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
-                                <span class="font-bold text-white text-base whitespace-nowrap">C 강의실 (15석)</span>
-                                <button onclick="editRoomStatus('C')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
+                                <span class="font-bold text-white text-base whitespace-nowrap">C 강의실</span>
+                                <button onclick="editRoomStatus('C')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
                             </div>
                             <span id="badge-C" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
                         </div>
                         <div class="mb-3">
                             <div class="flex items-center gap-2 mb-2">
                                 <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
-                                <button onclick="addSoftware('C')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ SW 추가</button>
+                                <button onclick="addSoftware('C')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
                             </div>
-                            <div id="sw-container-C" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">서버 통신중...</p></div>
+                            <div id="sw-container-C" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
                         </div>
                         <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
                             <div class="flex justify-between items-center mb-2">
@@ -128,21 +127,21 @@
                             </div>
                         </div>
                     </div>
-                    <!-- D 강의실 -->
+
                     <div class="bg-blue-900/20 border-2 border-blue-500/30 rounded-2xl p-4 shadow-xl flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
                                 <span class="font-bold text-blue-300 text-base flex items-center gap-1">D 강의실 <span class="text-[8px] font-bold text-white bg-blue-600 px-1 py-0.5 rounded uppercase">High</span></span>
-                                <button onclick="editRoomStatus('D')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
+                                <button onclick="editRoomStatus('D')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
                             </div>
                             <span id="badge-D" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
                         </div>
                         <div class="mb-3">
                             <div class="flex items-center gap-2 mb-2">
                                 <p class="text-[9px] font-bold text-blue-400 uppercase">Software List</p>
-                                <button onclick="addSoftware('D')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ SW 추가</button>
+                                <button onclick="addSoftware('D')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
                             </div>
-                            <div id="sw-container-D" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">서버 통신중...</p></div>
+                            <div id="sw-container-D" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
                         </div>
                         <div class="bg-slate-950/80 p-3 rounded-xl border border-blue-500/20 relative">
                             <div class="flex justify-between items-center mb-2">
@@ -159,21 +158,21 @@
                             </div>
                         </div>
                     </div>
-                    <!-- E 강의실 -->
+
                     <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex justify-between items-center mb-3">
                             <div class="flex items-center gap-2">
-                                <span class="font-bold text-white text-base whitespace-nowrap">E 강의실 (13석)</span>
-                                <button onclick="editRoomStatus('E')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 상태 제어</button>
+                                <span class="font-bold text-white text-base whitespace-nowrap">E 강의실</span>
+                                <button onclick="editRoomStatus('E')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
                             </div>
                             <span id="badge-E" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
                         </div>
                         <div class="mb-3">
                             <div class="flex items-center gap-2 mb-2">
                                 <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
-                                <button onclick="addSoftware('E')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ SW 추가</button>
+                                <button onclick="addSoftware('E')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
                             </div>
-                            <div id="sw-container-E" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">서버 통신중...</p></div>
+                            <div id="sw-container-E" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
                         </div>
                         <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
                             <div class="flex justify-between items-center mb-2">
@@ -190,6 +189,131 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white text-base whitespace-nowrap">F 강의실</span>
+                                <button onclick="editRoomStatus('F')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
+                            </div>
+                            <span id="badge-F" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
+                                <button onclick="addSoftware('F')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
+                            </div>
+                            <div id="sw-container-F" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-[9px] font-bold text-slate-500 uppercase">Hardware Specs</p>
+                                <button onclick="editHardware('F')" class="admin-ui hidden text-[8px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">✏️ 수정</button>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="hw-info"><span class="label">CPU</span><span id="hw-F-cpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">RAM</span><span id="hw-F-ram">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">GPU</span><span id="hw-F-gpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">DISK</span><span id="hw-F-disk">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">MB</span><span id="hw-F-mb">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">POWER</span><span id="hw-F-power">로딩중...</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white text-base whitespace-nowrap">G 강의실</span>
+                                <button onclick="editRoomStatus('G')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
+                            </div>
+                            <span id="badge-G" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
+                                <button onclick="addSoftware('G')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
+                            </div>
+                            <div id="sw-container-G" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-[9px] font-bold text-slate-500 uppercase">Hardware Specs</p>
+                                <button onclick="editHardware('G')" class="admin-ui hidden text-[8px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">✏️ 수정</button>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="hw-info"><span class="label">CPU</span><span id="hw-G-cpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">RAM</span><span id="hw-G-ram">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">GPU</span><span id="hw-G-gpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">DISK</span><span id="hw-G-disk">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">MB</span><span id="hw-G-mb">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">POWER</span><span id="hw-G-power">로딩중...</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white text-base whitespace-nowrap">K 강의실</span>
+                                <button onclick="editRoomStatus('K')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
+                            </div>
+                            <span id="badge-K" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
+                                <button onclick="addSoftware('K')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
+                            </div>
+                            <div id="sw-container-K" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-[9px] font-bold text-slate-500 uppercase">Hardware Specs</p>
+                                <button onclick="editHardware('K')" class="admin-ui hidden text-[8px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">✏️ 수정</button>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="hw-info"><span class="label">CPU</span><span id="hw-K-cpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">RAM</span><span id="hw-K-ram">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">GPU</span><span id="hw-K-gpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">DISK</span><span id="hw-K-disk">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">MB</span><span id="hw-K-mb">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">POWER</span><span id="hw-K-power">로딩중...</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white text-base whitespace-nowrap">L 강의실</span>
+                                <button onclick="editRoomStatus('L')" class="admin-ui hidden text-[8px] font-bold bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 active:bg-purple-500/40">⚙️ 제어</button>
+                            </div>
+                            <span id="badge-L" class="text-sm font-bold text-slate-400 bg-slate-700 px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right">스캔 중...</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Software List</p>
+                                <button onclick="addSoftware('L')" class="admin-ui hidden text-[8px] font-bold bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">+ 추가</button>
+                            </div>
+                            <div id="sw-container-L" class="min-h-[24px] flex flex-wrap"><p class="text-[10px] text-slate-500">로딩중...</p></div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-slate-800 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-[9px] font-bold text-slate-500 uppercase">Hardware Specs</p>
+                                <button onclick="editHardware('L')" class="admin-ui hidden text-[8px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">✏️ 수정</button>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="hw-info"><span class="label">CPU</span><span id="hw-L-cpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">RAM</span><span id="hw-L-ram">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">GPU</span><span id="hw-L-gpu">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">DISK</span><span id="hw-L-disk">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">MB</span><span id="hw-L-mb">로딩중...</span></div>
+                                <div class="hw-info"><span class="label">POWER</span><span id="hw-L-power">로딩중...</span></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
@@ -218,8 +342,7 @@
                 <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700 shadow-lg">
                     <p class="text-[10px] text-slate-500 font-bold uppercase mb-4 tracking-widest text-center">Emergency Contact</p>
                     <div class="space-y-4 text-xs">
-                        <!-- [텍스트 변경] 이승민 대리 -> 총무로 치환 완료 -->
-                        <div class="flex justify-between items-center border-b border-slate-700/50 pb-3"><span>시설 총괄 (총무)</span><span class="font-bold text-blue-400 text-sm">010-6762-2212</span></div>
+                        <div class="flex justify-between items-center border-b border-slate-700/50 pb-3"><span>시설 총괄 (총무)</span><span class="font-bold text-blue-400 text-sm">010-9287-2656</span></div>
                         <div class="flex justify-between items-center"><span>보안 관제 센터</span><span class="font-bold text-white text-sm">1588-3112</span></div>
                     </div>
                 </div>
@@ -231,7 +354,6 @@
                         <span class="text-white text-[10px] font-bold">● 중앙 관제 센터 (관리자)</span>
                     </div>
                     <div class="p-4 bg-slate-900">
-                        <!-- 이메일 설정 UI -->
                         <div class="mb-5 bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-inner">
                             <p class="text-[10px] text-blue-400 mb-2 font-bold">📧 이메일 설정</p>
                             <div class="flex gap-2">
@@ -267,14 +389,23 @@
 
         let localReports = JSON.parse(localStorage.getItem('g_suwon_reports')) || [];
         let isAdminMode = false;
-        let softwareData = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [] };
         
+        // [배열 확장] 9개의 방을 배열로 모두 관리합니다.
+        const ROOMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'K', 'L'];
+        
+        let softwareData = { 'A':[], 'B':[], 'C':[], 'D':[], 'E':[], 'F':[], 'G':[], 'K':[], 'L':[] };
+        
+        // 초기 임시 데이터 세팅
         let hardwareData = {
             'A': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
             'B': { cpu: 'i7-11700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B560M 보드', power: 'MSI 750W' },
             'C': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
             'D': { cpu: 'i9-14900KF', ram: 'DDR5 64G', gpu: 'RTX 4070 Ti 12G', disk: 'Crucial T500 1TB', mb: 'Z790 보드', power: '900W' },
-            'E': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' }
+            'E': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'F': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'G': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'K': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'L': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' }
         };
 
         const tabTriggers = document.querySelectorAll('.tab-trigger');
@@ -293,15 +424,11 @@
 
         function updateStats() {
             const now = new Date();
-            const y = now.getFullYear();
-            const m = now.getMonth() + 1;
-            const d = now.getDate();
+            const y = now.getFullYear(); const m = now.getMonth() + 1; const d = now.getDate();
             const todayPrefix = `${y}. ${m}. ${d}.`;
             const monthPrefix = `${y}. ${m}. `;
 
-            let todayCount = 0;
-            let monthCount = 0;
-            let resolvedCount = 0;
+            let todayCount = 0; let monthCount = 0; let resolvedCount = 0;
 
             localReports.forEach(r => {
                 if (r.date && r.date.startsWith(todayPrefix)) todayCount++;
@@ -319,27 +446,24 @@
         async function safeFetchJSON(url, options) {
             const res = await fetch(url, options);
             const text = await res.text();
-            try { return JSON.parse(text); } 
-            catch (e) { throw new Error("서버 에러 또는 구글 권한 문제 발생"); }
+            try { return JSON.parse(text); } catch (e) { throw new Error("서버 에러 발생"); }
         }
 
         function escapeHTML(str) {
             if (!str) return "";
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
         async function loadServerData() {
             const syncDot = document.getElementById('mobile-sync-dot');
             const syncText = document.getElementById('mobile-sync-text');
             try {
-                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load", { method: 'GET' });
-                if (responseData.result === "success") {
-                    localReports = responseData.data;
+                const res = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load", { method: 'GET' });
+                if (res.result === "success") {
+                    localReports = res.data;
                     localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                     updateStats();
-                    if (isAdminMode) { renderAdminReports(); }
+                    if (isAdminMode) renderAdminReports();
                     syncDot.classList.replace('bg-blue-500', 'bg-emerald-500');
                     syncText.innerText = "서버 연동됨"; syncText.classList.replace('text-slate-300', 'text-emerald-300');
                 }
@@ -351,15 +475,14 @@
         
         async function loadRoomStatus() {
             try {
-                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_status", { method: 'GET' });
-                if (responseData.result === "success") {
-                    const statusData = responseData.data;
-                    ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+                const res = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_status", { method: 'GET' });
+                if (res.result === "success") {
+                    const statusData = res.data;
+                    ROOMS.forEach(room => {
                         const badge = document.getElementById(`badge-${room}`);
                         if (badge) {
                             const status = statusData[room] || "자습가능";
                             badge.innerText = status;
-                            
                             if (status.includes('자습가능') || status.includes('운영중')) {
                                 badge.className = "text-sm font-bold px-3 py-1.5 rounded-lg truncate max-w-[200px] text-right bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
                             } else if (status.includes('수업중')) {
@@ -375,10 +498,10 @@
 
         async function loadSoftwareData() {
             try {
-                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_software", { method: 'GET' });
-                if (responseData.result === "success") {
-                    const data = responseData.data;
-                    ['A', 'B', 'C', 'D', 'E'].forEach(room => { if(data[room]) { softwareData[room] = data[room]; } });
+                const res = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_software", { method: 'GET' });
+                if (res.result === "success") {
+                    const data = res.data;
+                    ROOMS.forEach(room => { if(data[room]) { softwareData[room] = data[room]; } });
                     renderAllSoftware();
                 }
             } catch(e) {}
@@ -387,12 +510,10 @@
         async function loadHardwareData() {
             renderAllHardwareSpecs(); 
             try {
-                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_hw", { method: 'GET' });
-                if (responseData.result === "success") {
-                    const data = responseData.data;
-                    ['A', 'B', 'C', 'D', 'E'].forEach(room => { 
-                        if(data[room] && data[room].cpu !== '') { hardwareData[room] = data[room]; } 
-                    });
+                const res = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_hw", { method: 'GET' });
+                if (res.result === "success") {
+                    const data = res.data;
+                    ROOMS.forEach(room => { if(data[room] && data[room].cpu !== '') { hardwareData[room] = data[room]; } });
                     renderAllHardwareSpecs(); 
                 }
             } catch(e) {}
@@ -412,27 +533,23 @@
         window.saveAdminEmail = async function() {
             const emailInput = document.getElementById('admin-email-input').value.trim();
             const saveBtn = document.getElementById('btn-save-email');
-            
             if (!emailInput) return alert("저장할 이메일 주소를 입력하세요.");
             if (!emailInput.includes('@')) return alert("올바른 이메일 형식이 아닙니다.");
             
             saveBtn.disabled = true; saveBtn.innerText = "저장 중";
-            
             try {
                 const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'save_email', email: emailInput })
                 });
-                if (result.result === 'success') {
-                    alert("이메일 설정 저장 완료");
-                    loadAdminEmail(); 
-                } else { alert("저장에 실패했습니다."); }
+                if (result.result === 'success') { alert("이메일 설정 저장 완료"); loadAdminEmail(); } 
+                else { alert("저장에 실패했습니다."); }
             } catch(e) { alert("통신 에러"); } 
             finally { saveBtn.disabled = false; saveBtn.innerText = "저장"; }
         };
 
         function renderAllSoftware() {
-            ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+            ROOMS.forEach(room => {
                 const container = document.getElementById(`sw-container-${room}`);
                 if (!container) return;
                 const list = softwareData[room];
@@ -450,7 +567,7 @@
         }
 
         function renderAllHardwareSpecs() {
-            ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+            ROOMS.forEach(room => {
                 const hw = hardwareData[room];
                 if(document.getElementById(`hw-${room}-cpu`)) {
                     document.getElementById(`hw-${room}-cpu`).innerText = hw.cpu;
@@ -464,10 +581,7 @@
         }
 
         window.addEventListener('load', () => {
-            loadServerData();
-            loadRoomStatus();
-            loadSoftwareData();
-            loadHardwareData(); 
+            loadServerData(); loadRoomStatus(); loadSoftwareData(); loadHardwareData(); 
             setInterval(loadRoomStatus, 60000);
         });
 
@@ -498,9 +612,7 @@
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: new URLSearchParams({ action: 'update_room_status', room: room, status: newStatus.trim(), duration: duration.trim() })
                 });
-                
-                if (newStatus.trim() === '') { loadRoomStatus(); } 
-                else { alert(`[${room}] 고정 완료`); }
+                if (newStatus.trim() === '') { loadRoomStatus(); } else { alert(`[${room}] 고정 완료`); }
             } catch(e) { alert("저장 실패"); }
         };
 
@@ -589,8 +701,7 @@
                     
                     document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden')); 
                     if (!document.getElementById('section-admin').classList.contains('hidden')) { tabTriggers[0].click(); }
-                    renderAllSoftware(); 
-                    alert("일반 모드로 전환되었습니다.");
+                    renderAllSoftware(); alert("일반 모드로 전환되었습니다.");
                 }
                 return;
             }
@@ -599,7 +710,6 @@
             if (!userInputPw) return;
 
             btn.innerText = "로딩 중...";
-            
             try {
                 const response = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
                     method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -615,20 +725,9 @@
                     document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden')); 
                     
                     alert("✅ 관리자 권한 획득!");
-                    tabTriggers[0].click(); 
-                    
-                    renderAdminReports();
-                    renderAllSoftware(); 
-                    loadServerData(); 
-                    loadAdminEmail(); 
-                } else {
-                    alert("비밀번호 불일치");
-                    btn.innerText = "⚙️ 관리자 로그인";
-                }
-            } catch(e) { 
-                alert("서버 연결 실패"); 
-                btn.innerText = "⚙️ 관리자 로그인";
-            }
+                    tabTriggers[0].click(); renderAdminReports(); renderAllSoftware(); loadServerData(); loadAdminEmail(); 
+                } else { alert("비밀번호 불일치"); btn.innerText = "⚙️ 관리자 로그인"; }
+            } catch(e) { alert("서버 연결 실패"); btn.innerText = "⚙️ 관리자 로그인"; }
         });
 
         function renderAdminReports() {
@@ -638,9 +737,7 @@
             container.innerHTML = localReports.map((r, idx) => {
                 if (!r.status) r.status = 'pending';
                 let statusBadge = r.status === 'complete' ? '<span class="text-emerald-400">[완료]</span>' : (r.status === 'check' ? '<span class="text-blue-400">[확인]</span>' : '<span class="text-slate-400">[접수]</span>');
-                
-                const safeName = escapeHTML(r.name);
-                const safeContent = escapeHTML(r.content);
+                const safeName = escapeHTML(r.name); const safeContent = escapeHTML(r.content);
 
                 return `
                 <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 mb-3 shadow-inner">
@@ -680,7 +777,6 @@
                 localReports = localReports.filter(r => String(r.id) !== String(id)); 
                 localStorage.setItem('g_suwon_reports', JSON.stringify(localReports)); 
                 renderAdminReports(); updateStats(); 
-
                 try {
                     await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
                         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
