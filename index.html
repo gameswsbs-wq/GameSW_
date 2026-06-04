@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임분당 통합 관제 시스템 (PC)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; background-color: #F1F5F9; -webkit-tap-highlight-color: transparent; }
+        .hidden { display: none !important; }
+        .transition-all { transition: all 0.3s ease; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        .tag-item { display: inline-flex; align-items: center; background-color: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.5rem; border-radius: 0.3rem; margin-right: 0.3rem; margin-bottom: 0.3rem; transition: all 0.2s; }
+        .tag-item:hover { border-color: #cbd5e1; }
+        .hw-info { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px dashed #f1f5f9;}
+        .hw-info span.label { font-weight: 700; color: #475569; min-width: 45px; }
+        .hw-info span.value { text-align: right; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 h-screen overflow-hidden flex text-slate-800">
+
+    <a href="mobile.html" class="fixed bottom-8 right-8 bg-slate-800 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-600 transition-colors z-50 border-2 border-slate-700" title="모바일 버전">
+        <span class="text-2xl">📱</span>
+    </a>
+
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col h-full flex-shrink-0 shadow-2xl z-20">
+        <div class="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950 flex-shrink-0">
+            <div class="w-2.5 h-2.5 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
+            <h1 class="font-bold text-white tracking-wide text-sm">G-BUNDANG <span class="text-blue-400">FACILITY</span></h1>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1" id="sidebar-nav">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 pl-2">System Menu</p>
+            <a href="#section-software" class="tab-trigger flex items-center px-4 py-2.5 bg-blue-600/10 text-blue-400 font-semibold rounded-lg border border-blue-500/20 transition-colors">
+                <span class="mr-3 text-lg">🖥️</span> 강의실 현황 및 관리
+            </a>
+            <a href="#section-report" class="tab-trigger flex items-center px-4 py-2.5 hover:bg-slate-800 text-slate-400 font-medium rounded-lg transition-colors border border-transparent">
+                <span class="mr-3 text-lg">🎫</span> 시설 고장 문의
+            </a>
+            <a href="#section-admin" id="menu-admin" class="admin-ui hidden tab-trigger flex items-center px-4 py-2.5 hover:bg-slate-800 text-slate-400 font-medium rounded-lg transition-colors border border-transparent">
+                <span class="mr-3 text-lg">⚙️</span> 문의 접수 처리판
+            </a>
+        </nav>
+
+        <div class="flex-shrink-0 p-4 space-y-3 border-t border-slate-800 bg-slate-900/50">
+            <div class="bg-slate-800 rounded-lg p-4 border border-slate-700/50 shadow-md">
+                <p class="text-[10px] text-slate-400 font-bold uppercase mb-3 tracking-wider">Dashboard Status</p>
+                <div class="space-y-2.5 text-[11px]">
+                    <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>당일 문의</span><span class="stat-today font-bold text-emerald-400">0 건</span></div>
+                    <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>당월 누적 문의</span><span class="stat-month font-bold text-blue-400">0 건</span></div>
+                    <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>전체 누적 문의</span><span class="stat-total font-bold text-indigo-400">0 건</span></div>
+                    <div class="flex justify-between items-center text-slate-400"><span>처리 완료</span><span class="stat-resolved font-bold text-orange-400">0 건</span></div>
+                </div>
+            </div>
+            <div class="bg-slate-800 rounded-lg p-4 border border-slate-700/50 shadow-md text-[11px]">
+                <p class="text-[10px] text-slate-400 font-bold uppercase mb-3 tracking-wider">Emergency Contacts</p>
+                <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>시설 총괄</span><span class="font-bold text-blue-400">010-9287-2656</span></div>
+                <div class="flex justify-between items-center text-slate-400 pt-1"><span>보안 관제</span><span class="font-bold text-white">1588-3112</span></div>
+            </div>
+            <div class="bg-slate-800 rounded-lg p-4 border border-slate-700/50 shadow-md text-[11px]">
+                <p class="text-[10px] text-slate-400 font-bold uppercase mb-3 tracking-wider">Node Info</p>
+                <div class="flex justify-between text-slate-400"><span>관리자</span><span class="font-bold text-white text-right">이승민 대리</span></div>
+                <div class="flex justify-between text-slate-400"><span>버전</span><span class="font-bold text-emerald-500 text-right">v8.1 (AI 날짜판독)</span></div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0 z-10 shadow-sm">
+            <h2 class="font-bold text-slate-800 text-lg flex items-center">
+                통합 관제 대시보드 (PC) 
+                <span id="sync-status" class="ml-3 text-[10px] text-emerald-500 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm">클라우드 동기화 됨</span>
+            </h2>
+            <button id="admin-login-btn" class="text-xs font-bold text-slate-600 bg-slate-100 border border-slate-200 px-4 py-2 rounded-md hover:bg-slate-200 transition-colors cursor-pointer">⚙️ 관리자 로그인</button>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-8 scroll-smooth" id="main-content">
+            <div class="max-w-6xl mx-auto space-y-8">
+                
+                <section id="section-software" class="content-section fade-in">
+                    <div class="flex flex-col gap-6">
+                        
+                        <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
+                            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                                <div class="flex items-center gap-3">
+                                    <h4 class="font-bold text-slate-800 text-base">A 강의실 (21석)</h4>
+                                    <button onclick="editRoomStatus('A')" class="admin-ui hidden text-[10px] font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded border border-purple-200 hover:bg-purple-200 transition-colors">⚙️ 상태 제어</button>
+                                </div>
+                                <span id="badge-A" class="bg-slate-100 text-sm font-bold text-slate-400 px-4 py-2 rounded-lg truncate max-w-[250px] text-right">스캔 중...</span>
+                            </div>
+                            <div class="p-6 flex flex-col lg:flex-row gap-8">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Software List</p>
+                                        <button onclick="addSoftware('A')" class="admin-ui hidden text-[9px] font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-200">+ SW 추가</button>
+                                    </div>
+                                    <div id="sw-container-A" class="min-h-[30px] flex flex-wrap"><p class="text-xs text-slate-400">서버 데이터 로딩중...</p></div>
+                                </div>
+                                <div class="w-full lg:w-80 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner relative">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Hardware Specs</p>
+                                        <button onclick="editHardware('A')" class="admin-ui hidden text-[9px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded hover:bg-slate-300">✏️ 사양 수정</button>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="hw-info"><span class="label">CPU</span><span id="hw-A-cpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">RAM</span><span id="hw-A-ram">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">GPU</span><span id="hw-A-gpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">DISK</span><span id="hw-A-disk">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">MB</span><span id="hw-A-mb">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">POWER</span><span id="hw-A-power">로딩중...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
+                            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                                <div class="flex items-center gap-3">
+                                    <h4 class="font-bold text-slate-800 text-base">B 강의실 (20석)</h4>
+                                    <button onclick="editRoomStatus('B')" class="admin-ui hidden text-[10px] font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded border border-purple-200 hover:bg-purple-200 transition-colors">⚙️ 상태 제어</button>
+                                </div>
+                                <span id="badge-B" class="bg-slate-100 text-sm font-bold text-slate-400 px-4 py-2 rounded-lg truncate max-w-[250px] text-right">스캔 중...</span>
+                            </div>
+                            <div class="p-6 flex flex-col lg:flex-row gap-8">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Software List</p>
+                                        <button onclick="addSoftware('B')" class="admin-ui hidden text-[9px] font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-200">+ SW 추가</button>
+                                    </div>
+                                    <div id="sw-container-B" class="min-h-[30px] flex flex-wrap"><p class="text-xs text-slate-400">서버 데이터 로딩중...</p></div>
+                                </div>
+                                <div class="w-full lg:w-80 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner relative">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Hardware Specs</p>
+                                        <button onclick="editHardware('B')" class="admin-ui hidden text-[9px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded hover:bg-slate-300">✏️ 사양 수정</button>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="hw-info"><span class="label">CPU</span><span id="hw-B-cpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">RAM</span><span id="hw-B-ram">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">GPU</span><span id="hw-B-gpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">DISK</span><span id="hw-B-disk">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">MB</span><span id="hw-B-mb">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">POWER</span><span id="hw-B-power">로딩중...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
+                            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                                <div class="flex items-center gap-3">
+                                    <h4 class="font-bold text-slate-800 text-base">C 강의실 (15석)</h4>
+                                    <button onclick="editRoomStatus('C')" class="admin-ui hidden text-[10px] font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded border border-purple-200 hover:bg-purple-200 transition-colors">⚙️ 상태 제어</button>
+                                </div>
+                                <span id="badge-C" class="bg-slate-100 text-sm font-bold text-slate-400 px-4 py-2 rounded-lg truncate max-w-[250px] text-right">스캔 중...</span>
+                            </div>
+                            <div class="p-6 flex flex-col lg:flex-row gap-8">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Software List</p>
+                                        <button onclick="addSoftware('C')" class="admin-ui hidden text-[9px] font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-200">+ SW 추가</button>
+                                    </div>
+                                    <div id="sw-container-C" class="min-h-[30px] flex flex-wrap"><p class="text-xs text-slate-400">서버 데이터 로딩중...</p></div>
+                                </div>
+                                <div class="w-full lg:w-80 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner relative">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Hardware Specs</p>
+                                        <button onclick="editHardware('C')" class="admin-ui hidden text-[9px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded hover:bg-slate-300">✏️ 사양 수정</button>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="hw-info"><span class="label">CPU</span><span id="hw-C-cpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">RAM</span><span id="hw-C-ram">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">GPU</span><span id="hw-C-gpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">DISK</span><span id="hw-C-disk">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">MB</span><span id="hw-C-mb">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">POWER</span><span id="hw-C-power">로딩중...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border-2 border-blue-200 rounded-2xl flex flex-col shadow-md">
+                            <div class="p-5 border-b border-blue-100 bg-blue-50/50 flex justify-between items-center rounded-t-2xl">
+                                <div class="flex items-center gap-3">
+                                    <h4 class="font-bold text-blue-800 text-base flex items-center gap-2">D 강의실 (19석) <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded uppercase">High-End</span></h4>
+                                    <button onclick="editRoomStatus('D')" class="admin-ui hidden text-[10px] font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded border border-purple-200 hover:bg-purple-200 transition-colors">⚙️ 상태 제어</button>
+                                </div>
+                                <span id="badge-D" class="bg-slate-100 text-sm font-bold text-slate-400 px-4 py-2 rounded-lg truncate max-w-[250px] text-right">스캔 중...</span>
+                            </div>
+                            <div class="p-6 flex flex-col lg:flex-row gap-8">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <p class="text-[10px] font-bold text-blue-400 uppercase">Software List</p>
+                                        <button onclick="addSoftware('D')" class="admin-ui hidden text-[9px] font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-200">+ SW 추가</button>
+                                    </div>
+                                    <div id="sw-container-D" class="min-h-[30px] flex flex-wrap"><p class="text-xs text-slate-400">서버 데이터 로딩중...</p></div>
+                                </div>
+                                <div class="w-full lg:w-80 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner relative">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <p class="text-[10px] font-bold text-blue-400 uppercase">Hardware Specs</p>
+                                        <button onclick="editHardware('D')" class="admin-ui hidden text-[9px] font-bold bg-blue-200 text-blue-700 px-2 py-0.5 rounded hover:bg-blue-300">✏️ 사양 수정</button>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="hw-info font-bold text-blue-600"><span class="label text-blue-400">CPU</span><span id="hw-D-cpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label text-blue-400">RAM</span><span id="hw-D-ram">로딩중...</span></div>
+                                        <div class="hw-info text-blue-700"><span class="label text-blue-400">GPU</span><span id="hw-D-gpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label text-blue-400">DISK</span><span id="hw-D-disk">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label text-blue-400">MB</span><span id="hw-D-mb">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label text-blue-400">POWER</span><span id="hw-D-power">로딩중...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
+                            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                                <div class="flex items-center gap-3">
+                                    <h4 class="font-bold text-slate-800 text-base">E 강의실 (13석)</h4>
+                                    <button onclick="editRoomStatus('E')" class="admin-ui hidden text-[10px] font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded border border-purple-200 hover:bg-purple-200 transition-colors">⚙️ 상태 제어</button>
+                                </div>
+                                <span id="badge-E" class="bg-slate-100 text-sm font-bold text-slate-400 px-4 py-2 rounded-lg truncate max-w-[250px] text-right">스캔 중...</span>
+                            </div>
+                            <div class="p-6 flex flex-col lg:flex-row gap-8">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Software List</p>
+                                        <button onclick="addSoftware('E')" class="admin-ui hidden text-[9px] font-bold bg-blue-100 text-blue-600 px-2 py-0.5 rounded hover:bg-blue-200">+ SW 추가</button>
+                                    </div>
+                                    <div id="sw-container-E" class="min-h-[30px] flex flex-wrap"><p class="text-xs text-slate-400">서버 데이터 로딩중...</p></div>
+                                </div>
+                                <div class="w-full lg:w-80 bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-inner relative">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase">Hardware Specs</p>
+                                        <button onclick="editHardware('E')" class="admin-ui hidden text-[9px] font-bold bg-slate-200 text-slate-600 px-2 py-0.5 rounded hover:bg-slate-300">✏️ 사양 수정</button>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="hw-info"><span class="label">CPU</span><span id="hw-E-cpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">RAM</span><span id="hw-E-ram">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">GPU</span><span id="hw-E-gpu">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">DISK</span><span id="hw-E-disk">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">MB</span><span id="hw-E-mb">로딩중...</span></div>
+                                        <div class="hw-info"><span class="label">POWER</span><span id="hw-E-power">로딩중...</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="section-report" class="content-section hidden fade-in">
+                    <div class="bg-white border-2 border-blue-100 rounded-3xl shadow-xl p-8">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">🛠️ 시설 문의 접수</h3>
+                        <div class="space-y-4">
+                            <input type="text" id="input-name" class="w-full border-2 border-slate-100 rounded-xl p-4 text-sm focus:border-blue-500 outline-none" placeholder="이름 입력">
+                            <textarea id="input-content" rows="6" class="w-full border-2 border-slate-100 rounded-xl p-4 text-sm focus:border-blue-500 outline-none resize-none" placeholder="내용 입력"></textarea>
+                            <button id="btn-submit" class="w-auto px-12 bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-blue-600 transition-colors">문의 접수</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-admin" class="content-section hidden fade-in">
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+                        <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+                            <h3 class="font-bold text-white text-sm"><span class="text-blue-500">●</span> 중앙 관제 센터 (관리자 전용)</h3>
+                        </div>
+                        <div class="p-8 bg-slate-900">
+                            <p class="text-xs text-blue-400 mb-4 pb-2 border-b border-slate-800 font-bold">수신된 시설 고장/문의 내역</p>
+                            <div id="report-list-container" class="space-y-4 max-h-[500px] overflow-y-auto custom-scrollbar">
+                                <p class="text-center text-slate-600 py-10">내역 없음</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // =========================================================================
+        // [중요] 반드시 새로 발급받은 구글 웹앱 URL을 겹따옴표 안에 붙여넣으세요!
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "여기에_주소를_붙여넣으세요"; 
+        const ADMIN_PW = "admin1234";
+
+        let localReports = JSON.parse(localStorage.getItem('g_bundang_reports')) || [];
+        let isAdminMode = false;
+        let softwareData = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [] };
+        
+        let hardwareData = {
+            'A': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'B': { cpu: 'i7-11700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B560M 보드', power: 'MSI 750W' },
+            'C': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' },
+            'D': { cpu: 'i9-14900KF', ram: 'DDR5 64G', gpu: 'RTX 4070 Ti 12G', disk: 'Crucial T500 1TB', mb: 'Z790 보드', power: '900W' },
+            'E': { cpu: 'i7-10700', ram: '삼성 DDR4 16G', gpu: 'GTX 1660 S', disk: 'SSD 250G/500G', mb: 'B460M 보드', power: '600W' }
+        };
+
+        const tabTriggers = document.querySelectorAll('.tab-trigger');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        tabTriggers.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                const targetId = this.getAttribute('href').substring(1); 
+                tabTriggers.forEach(t => { t.classList.remove('bg-blue-600/10', 'text-blue-400', 'border-blue-500/20'); t.classList.add('text-slate-400', 'border-transparent'); });
+                this.classList.remove('text-slate-400', 'border-transparent'); this.classList.add('bg-blue-600/10', 'text-blue-400', 'border-blue-500/20');
+                contentSections.forEach(section => { if (section.id === targetId) section.classList.remove('hidden'); else section.classList.add('hidden'); });
+            });
+        });
+
+        function updateStats() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth() + 1;
+            const d = now.getDate();
+
+            const todayPrefix = `${y}. ${m}. ${d}.`;
+            const monthPrefix = `${y}. ${m}. `;
+
+            let todayCount = 0;
+            let monthCount = 0;
+            let resolvedCount = 0;
+
+            localReports.forEach(r => {
+                if (r.date && r.date.startsWith(todayPrefix)) todayCount++;
+                if (r.date && r.date.startsWith(monthPrefix)) monthCount++;
+                if (r.status === 'complete') resolvedCount++;
+            });
+
+            document.querySelectorAll('.stat-total').forEach(el => el.innerText = localReports.length + " 건");
+            document.querySelectorAll('.stat-month').forEach(el => el.innerText = monthCount + " 건");
+            document.querySelectorAll('.stat-today').forEach(el => el.innerText = todayCount + " 건");
+            document.querySelectorAll('.stat-resolved').forEach(el => el.innerText = resolvedCount + " 건");
+        }
+        updateStats();
+
+        async function safeFetchJSON(url, options) {
+            const res = await fetch(url, options);
+            const text = await res.text();
+            try { return JSON.parse(text); } 
+            catch (e) { throw new Error("서버 에러 또는 구글 권한 문제 발생"); }
+        }
+
+        async function loadServerData() {
+            try {
+                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load", { method: 'GET' });
+                if (responseData.result === "success") {
+                    localReports = responseData.data;
+                    localStorage.setItem('g_bundang_reports', JSON.stringify(localReports));
+                    updateStats();
+                    if (isAdminMode) { renderAdminReports(); }
+                }
+            } catch(e) { console.error("문의 데이터 로딩 실패", e); }
+        }
+        
+        async function loadRoomStatus() {
+            const syncStatus = document.getElementById('sync-status');
+            syncStatus.innerText = "클라우드 스캔 중...";
+            syncStatus.className = "ml-3 text-[10px] text-orange-500 bg-orange-50 border border-orange-100 px-2.5 py-1 rounded-full shadow-sm";
+
+            try {
+                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_status", { method: 'GET' });
+                if (responseData.result === "success") {
+                    const statusData = responseData.data;
+                    ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+                        const badge = document.getElementById(`badge-${room}`);
+                        if (badge) {
+                            const status = statusData[room] || "자습가능";
+                            badge.innerText = status;
+                            badge.title = status; 
+                            
+                            if (status.includes('자습가능') || status.includes('운영중')) {
+                                badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-emerald-50 text-emerald-600 border border-emerald-100 shadow-sm";
+                            } else if (status.includes('수업중')) {
+                                badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-red-50 text-red-500 border border-red-100 shadow-sm";
+                            } else {
+                                badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-purple-50 text-purple-600 border border-purple-100 shadow-sm";
+                            }
+                        }
+                    });
+                    syncStatus.innerText = "클라우드 동기화 됨"; 
+                    syncStatus.className = "ml-3 text-[10px] text-emerald-500 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full shadow-sm";
+                }
+            } catch (e) {
+                console.error("스캐너 연동 실패", e);
+                syncStatus.innerText = "오프라인 모드"; 
+                syncStatus.className = "ml-3 text-[10px] text-red-500 bg-red-50 border border-red-100 px-2.5 py-1 rounded-full shadow-sm";
+            }
+        }
+
+        async function loadSoftwareData() {
+            try {
+                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_software", { method: 'GET' });
+                if (responseData.result === "success") {
+                    const data = responseData.data;
+                    ['A', 'B', 'C', 'D', 'E'].forEach(room => { if(data[room]) { softwareData[room] = data[room]; } });
+                    renderAllSoftware(); 
+                }
+            } catch(e) { console.error("소프트웨어 연동 실패"); }
+        }
+
+        async function loadHardwareData() {
+            renderAllHardwareSpecs(); 
+            try {
+                const responseData = await safeFetchJSON(GOOGLE_SCRIPT_URL + "?action=load_hw", { method: 'GET' });
+                if (responseData.result === "success") {
+                    const data = responseData.data;
+                    ['A', 'B', 'C', 'D', 'E'].forEach(room => { 
+                        if(data[room] && data[room].cpu !== '') { hardwareData[room] = data[room]; } 
+                    });
+                    renderAllHardwareSpecs(); 
+                }
+            } catch(e) { console.error("하드웨어 사양 연동 실패"); }
+        }
+
+        function renderAllSoftware() {
+            ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+                const container = document.getElementById(`sw-container-${room}`);
+                if (!container) return;
+                const list = softwareData[room];
+                if (list.length === 0) {
+                    container.innerHTML = '<p class="text-xs text-slate-400 italic">등록된 소프트웨어가 없습니다.</p>';
+                    return;
+                }
+                let html = '';
+                list.forEach(sw => {
+                    const deleteBtn = isAdminMode ? `<span onclick="deleteSoftware('${room}', '${sw}')" class="ml-1.5 text-[10px] text-slate-400 hover:text-red-500 cursor-pointer p-0.5 rounded hover:bg-slate-200 transition-colors" title="삭제">✕</span>` : '';
+                    const colorClass = room === 'D' ? 'bg-blue-100 text-blue-700 border-blue-200' : 'bg-slate-100 text-slate-600 border-slate-200';
+                    html += `<span class="tag-item ${colorClass}">${sw} ${deleteBtn}</span>`;
+                });
+                container.innerHTML = html;
+            });
+        }
+
+        function renderAllHardwareSpecs() {
+            ['A', 'B', 'C', 'D', 'E'].forEach(room => {
+                const hw = hardwareData[room];
+                if(document.getElementById(`hw-${room}-cpu`)) {
+                    document.getElementById(`hw-${room}-cpu`).innerText = hw.cpu;
+                    document.getElementById(`hw-${room}-ram`).innerText = hw.ram;
+                    document.getElementById(`hw-${room}-gpu`).innerText = hw.gpu;
+                    document.getElementById(`hw-${room}-disk`).innerText = hw.disk;
+                    document.getElementById(`hw-${room}-mb`).innerText = hw.mb;
+                    document.getElementById(`hw-${room}-power`).innerText = hw.power;
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            loadServerData();
+            loadRoomStatus();
+            loadSoftwareData();
+            loadHardwareData();
+            
+            setInterval(loadRoomStatus, 60000);
+        });
+
+        window.editRoomStatus = async function(room) {
+            if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
+            
+            const badge = document.getElementById(`badge-${room}`);
+            const currentBadge = badge.innerText;
+            const defaultText = (currentBadge.includes('자습가능') || currentBadge.includes('수업중')) ? '' : currentBadge;
+            
+            const newStatus = prompt(`[${room} 강의실] 강제로 고정할 상태를 입력하세요.\n(예: 사용중, 특강중, 회의중 등)\n\n※ 빈칸으로 지우고 확인을 누르면 즉시 '자동 스캔 모드'로 복귀합니다.`, defaultText);
+            if (newStatus === null) return; 
+
+            let duration = '';
+            if (newStatus.trim() !== '') {
+                duration = prompt(`[${room} 강의실] 유지할 시간을 '분' 단위로 입력하세요.\n(예: 60)\n\n※ 빈칸으로 두면 직접 해제할 때까지 무기한 유지됩니다.`);
+                if (duration === null) return; 
+            }
+            
+            if (newStatus.trim() === '') {
+                badge.innerText = "스캔 중...";
+                badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-slate-100 text-slate-500";
+            } else {
+                badge.innerText = newStatus;
+                badge.className = "text-sm font-bold px-4 py-2 rounded-lg truncate max-w-[250px] ml-2 text-right bg-purple-50 text-purple-600 border border-purple-100 shadow-sm";
+            }
+            
+            try {
+                await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ action: 'update_room_status', room: room, status: newStatus.trim(), duration: duration.trim() })
+                });
+                
+                if (newStatus.trim() === '') { 
+                    loadRoomStatus(); 
+                } else { 
+                    const timeMsg = duration.trim() ? `${duration}분 뒤 자동 해제됩니다.` : "직접 해제할 때까지 무기한 유지됩니다.";
+                    alert(`[${room} 강의실] 상태가 강제 고정되었습니다.\n(${timeMsg})`); 
+                }
+                
+            } catch(e) { alert("서버 저장 실패: 인터넷 연결을 확인하세요."); }
+        };
+
+        window.editHardware = async function(room) {
+            if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
+            
+            const hw = hardwareData[room];
+            
+            const newCpu = prompt(`[${room} 강의실] 변경할 CPU 사양을 입력하세요:`, hw.cpu); if(newCpu === null) return;
+            const newRam = prompt(`[${room} 강의실] 변경할 RAM 사양을 입력하세요:`, hw.ram); if(newRam === null) return;
+            const newGpu = prompt(`[${room} 강의실] 변경할 GPU 사양을 입력하세요:`, hw.gpu); if(newGpu === null) return;
+            const newDisk = prompt(`[${room} 강의실] 변경할 DISK 용량을 입력하세요:`, hw.disk); if(newDisk === null) return;
+            const newMb = prompt(`[${room} 강의실] 변경할 메인보드(MB) 사양을 입력하세요:`, hw.mb); if(newMb === null) return;
+            const newPower = prompt(`[${room} 강의실] 변경할 파워(POWER) 용량을 입력하세요:`, hw.power); if(newPower === null) return;
+            
+            hardwareData[room] = { cpu: newCpu, ram: newRam, gpu: newGpu, disk: newDisk, mb: newMb, power: newPower };
+            renderAllHardwareSpecs();
+            
+            try {
+                await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ 
+                        action: 'update_hw', room: room, 
+                        cpu: newCpu, ram: newRam, gpu: newGpu, disk: newDisk, mb: newMb, power: newPower 
+                    })
+                });
+            } catch(e) { alert("서버 저장 실패: 인터넷 연결을 확인하세요."); }
+        };
+
+        window.addSoftware = async function(room) {
+            if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
+            const newSw = prompt(`${room} 강의실에 추가할 소프트웨어 이름을 입력하세요.\n(예: Photoshop 2024)`);
+            if (!newSw || newSw.trim() === '') return;
+            
+            softwareData[room].push(newSw.trim());
+            renderAllSoftware();
+            
+            const swListStr = softwareData[room].join(','); 
+            try {
+                await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ action: 'update_software', room: room, swList: swListStr })
+                });
+            } catch(e) { alert("구글 서버에 저장 중 오류가 발생했습니다."); }
+        };
+
+        window.deleteSoftware = async function(room, targetSw) {
+            if (!isAdminMode) return;
+            if (!confirm(`정말 '${targetSw}' 항목을 삭제하시겠습니까?`)) return;
+
+            softwareData[room] = softwareData[room].filter(sw => sw !== targetSw);
+            renderAllSoftware(); 
+
+            const swListStr = softwareData[room].join(',');
+            try {
+                await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ action: 'update_software', room: room, swList: swListStr })
+                });
+            } catch(e) { alert("구글 서버에 삭제 동기화 중 오류가 발생했습니다."); }
+        };
+
+        document.getElementById('btn-submit').addEventListener('click', async () => {
+            const name = document.getElementById('input-name').value.trim();
+            const content = document.getElementById('input-content').value.trim();
+            const submitBtn = document.getElementById('btn-submit');
+            
+            if(!name || !content) return alert("이름과 내용을 모두 입력해주세요.");
+            submitBtn.disabled = true; submitBtn.innerText = "서버 전송 중...";
+
+            const newId = Date.now();
+            const newDate = new Date().toLocaleString('ko-KR');
+
+            try {
+                const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
+                    method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, 
+                    body:new URLSearchParams({ action:'submit', id: newId, name: name, content: content, date: newDate }) 
+                });
+                
+                if(result.result === "success") {
+                    alert("성공적으로 문의가 접수되었습니다.");
+                    localReports.push({ id: newId, name, content, date: newDate, status: 'pending' });
+                    localStorage.setItem('g_bundang_reports', JSON.stringify(localReports));
+                    document.getElementById('input-name').value = ""; document.getElementById('input-content').value = ""; updateStats();
+                }
+            } catch(e) { alert("서버 연동 오류가 발생했습니다."); 
+            } finally { submitBtn.disabled = false; submitBtn.innerText = "문의 접수"; }
+        });
+
+        document.getElementById('admin-login-btn').addEventListener('click', () => { 
+            const btn = document.getElementById('admin-login-btn');
+            
+            if (isAdminMode) { 
+                if (confirm("관리자 모드를 종료하고 일반 사용자로 돌아가시겠습니까?")) {
+                    isAdminMode = false;
+                    btn.innerText = "⚙️ 관리자 로그인";
+                    btn.classList.remove('bg-blue-100', 'text-blue-700', 'border-blue-300');
+                    btn.classList.add('bg-slate-100', 'text-slate-600', 'border-slate-200');
+                    
+                    document.querySelectorAll('.admin-ui').forEach(el => el.classList.add('hidden'));
+                    if (!document.getElementById('section-admin').classList.contains('hidden')) {
+                        tabTriggers[0].click();
+                    }
+                    renderAllSoftware(); 
+                    alert("일반 사용자 모드로 전환되었습니다.");
+                }
+                return; 
+            }
+            
+            if (prompt("관리자 암호를 입력하세요.") === ADMIN_PW) { 
+                isAdminMode = true; 
+                btn.innerText = "🔓 관리자 (로그아웃)";
+                btn.classList.remove('bg-slate-100', 'text-slate-600', 'border-slate-200');
+                btn.classList.add('bg-blue-100', 'text-blue-700', 'border-blue-300');
+                
+                document.querySelectorAll('.admin-ui').forEach(el => el.classList.remove('hidden'));
+                
+                alert("✅ 관리자 모드가 활성화되었습니다.\n\n- [강의실 현황] 화면에서 강의실 상태 제어와 하드웨어/소프트웨어를 조작할 수 있습니다.\n- 사이드바에 생성된 [문의 접수 처리판] 탭에서 오류 내역을 관리할 수 있습니다.");
+                
+                tabTriggers[0].click(); 
+                renderAdminReports(); 
+                renderAllSoftware();  
+                loadServerData();
+            } else { alert("비밀번호가 일치하지 않습니다."); }
+        });
+
+        function renderAdminReports() {
+            const container = document.getElementById('report-list-container');
+            if (localReports.length === 0) { container.innerHTML = '<p class="text-center text-slate-600 py-10">접수 내역이 없습니다.</p>'; return; }
+            
+            container.innerHTML = localReports.map((report, idx) => {
+                if (!report.status) report.status = 'pending';
+                let statusBadge = report.status === 'complete' ? '<span class="text-emerald-500">[완료]</span>' : (report.status === 'check' ? '<span class="text-blue-400">[확인]</span>' : '<span class="text-slate-400">[접수]</span>');
+                
+                return `
+                <div class="bg-slate-800 border border-slate-700 p-5 rounded-xl flex flex-col mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-blue-400 text-[10px] font-bold">TICKET ID: ${report.id}</span>
+                        <span class="text-[10px] text-slate-500">${report.date} ${statusBadge}</span>
+                    </div>
+                    <p class="text-white text-sm mb-2 font-bold">${report.name}</p>
+                    <p class="text-slate-300 text-sm whitespace-pre-wrap">${report.content}</p>
+                    
+                    <div class="flex gap-2 mt-4 pt-3 border-t border-slate-700/50">
+                        <button onclick="updateSheetStatus('${report.id}', 'check')" class="flex-1 text-[11px] text-blue-400 bg-slate-900/80 px-3 py-2 rounded-lg font-bold hover:bg-slate-700 transition-colors">확인 기록</button>
+                        <button onclick="updateSheetStatus('${report.id}', 'complete')" class="flex-1 text-[11px] text-emerald-400 bg-slate-900/80 px-3 py-2 rounded-lg font-bold hover:bg-slate-700 transition-colors">완료 기록</button>
+                        <button onclick="deleteGlobalReport('${report.id}')" class="flex-1 text-[11px] text-slate-400 bg-slate-900/80 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors">서버 영구 삭제</button>
+                    </div>
+                </div>`
+            }).reverse().join(''); 
+        }
+
+        window.updateSheetStatus = async function(id, updateType) {
+            const reportIndex = localReports.findIndex(r => String(r.id) === String(id));
+            if (reportIndex > -1) { 
+                localReports[reportIndex].status = updateType; 
+                localStorage.setItem('g_bundang_reports', JSON.stringify(localReports)); 
+                renderAdminReports(); updateStats(); 
+            }
+            try { 
+                await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+                    body: new URLSearchParams({ action: 'update', id: id, updateType: updateType }) 
+                }); 
+            } catch (err) { alert("상태 변경 오류가 발생했습니다."); }
+        };
+
+        window.deleteGlobalReport = async function(id) { 
+            if (confirm("서버에서 이 내역을 완전히 영구 삭제하시겠습니까?\\n(삭제 후 복구할 수 없습니다)")) { 
+                localReports = localReports.filter(r => String(r.id) !== String(id)); 
+                localStorage.setItem('g_bundang_reports', JSON.stringify(localReports)); 
+                renderAdminReports(); updateStats(); 
+                try {
+                    await safeFetchJSON(GOOGLE_SCRIPT_URL, { 
+                        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+                        body: new URLSearchParams({ action: 'delete', id: id }) 
+                    }); 
+                } catch(e) { alert("서버 삭제 동기화 중 오류가 발생했습니다."); }
+            } 
+        };
+    </script>
+</body>
+</html>
