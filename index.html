@@ -31,6 +31,7 @@
     <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col h-full flex-shrink-0 shadow-2xl z-20">
         <div class="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950 flex-shrink-0">
             <div class="w-2.5 h-2.5 bg-blue-500 rounded-full mr-3 animate-pulse"></div>
+            <!-- 게임수원 명칭 적용 -->
             <h1 class="font-bold text-white tracking-wide text-sm">G-SUWON <span class="text-blue-400">FACILITY</span></h1>
         </div>
         
@@ -59,12 +60,13 @@
             </div>
             <div class="bg-slate-800 rounded-lg p-4 border border-slate-700/50 shadow-md text-[11px]">
                 <p class="text-[10px] text-slate-400 font-bold uppercase mb-3 tracking-wider">Emergency Contacts</p>
-                <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>시설 총괄</span><span class="font-bold text-blue-400">010-9287-2656</span></div>
+                <div class="flex justify-between items-center text-slate-400 border-b border-slate-700/30 pb-2"><span>시설 총괄</span><span class="font-bold text-blue-400">010-6762-2212</span></div>
                 <div class="flex justify-between items-center text-slate-400 pt-1"><span>보안 관제</span><span class="font-bold text-white">1588-3112</span></div>
             </div>
             <div class="bg-slate-800 rounded-lg p-4 border border-slate-700/50 shadow-md text-[11px]">
                 <p class="text-[10px] text-slate-400 font-bold uppercase mb-3 tracking-wider">Node Info</p>
-                <div class="flex justify-between text-slate-400"><span>관리자</span><span class="font-bold text-white text-right">이승민 대리</span></div>
+                <!-- [텍스트 변경] 이승민 대리 -> 총무로 치환 완료 -->
+                <div class="flex justify-between text-slate-400"><span>관리자</span><span class="font-bold text-white text-right">총무</span></div>
                 <div class="flex justify-between text-slate-400"><span>버전</span><span class="font-bold text-emerald-500 text-right">v8.2 (수원패치)</span></div>
             </div>
         </div>
@@ -84,6 +86,7 @@
                 
                 <section id="section-software" class="content-section fade-in">
                     <div class="flex flex-col gap-6">
+                        <!-- A 강의실 -->
                         <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
                             <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -117,6 +120,7 @@
                             </div>
                         </div>
 
+                        <!-- B 강의실 -->
                         <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
                             <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -150,6 +154,7 @@
                             </div>
                         </div>
 
+                        <!-- C 강의실 -->
                         <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
                             <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -183,6 +188,7 @@
                             </div>
                         </div>
 
+                        <!-- D 강의실 -->
                         <div class="bg-white border-2 border-blue-200 rounded-2xl flex flex-col shadow-md">
                             <div class="p-5 border-b border-blue-100 bg-blue-50/50 flex justify-between items-center rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -216,6 +222,7 @@
                             </div>
                         </div>
 
+                        <!-- E 강의실 -->
                         <div class="bg-white border border-slate-200 rounded-2xl flex flex-col shadow-sm">
                             <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
                                 <div class="flex items-center gap-3">
@@ -269,6 +276,7 @@
                             <h3 class="font-bold text-white text-sm"><span class="text-blue-500">●</span> 중앙 관제 센터 (관리자 전용)</h3>
                         </div>
                         <div class="p-8 bg-slate-900">
+                            <!-- [기능 추가] 이메일 설정 UI 영역 -->
                             <div class="mb-6 bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-inner">
                                 <p class="text-xs text-blue-400 mb-3 font-bold">📧 자동 알림 수신 이메일 설정</p>
                                 <div class="flex gap-2">
@@ -295,9 +303,6 @@
         // =========================================================================
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxliFMetV2F9VVCkL29ULBJ5K5hj0op_flAl2TTiXSMDTzEpGINgZxz_t6EEF1xnXEuyQ/exec"; 
         
-        // [보안 패치 완료] 코드에 박혀있던 비밀번호를 삭제했습니다.
-        // const ADMIN_PW = "admin1234"; 
-
         // [데이터 독립] 게임수원 전용 저장소를 사용합니다.
         let localReports = JSON.parse(localStorage.getItem('g_suwon_reports')) || [];
         let isAdminMode = false;
@@ -572,7 +577,7 @@
         };
 
         window.addSoftware = async function(room) {
-            if (!isAdminMode) return;
+            if (!isAdminMode) return alert("관리자 권한이 필요합니다.");
             const newSw = prompt(`${room} 강의실에 추가할 소프트웨어 이름을 입력하세요.`);
             if (!newSw || newSw.trim() === '') return;
             
